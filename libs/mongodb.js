@@ -3,7 +3,7 @@ const config  = require('../config');
 
 const USER = encodeURIComponent(config.mongodb.user);
 const PASSWORD = encodeURIComponent(config.mongodb.password);
-const DB_NAME = config.mongo.dbName;
+const DB_NAME = config.mongodb.dbName;
 const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${config.mongodb.host}/${DB_NAME}?retryWrites=true&w=majority`;
 
 class MongoLib {
@@ -44,6 +44,12 @@ class MongoLib {
   get(collection, id) {
     return this.connect().then(db => {
       return db.collection(collection).findOne({ _id: ObjectId(id) });
+    });
+  }
+
+  query(collection, query) {
+    return this.connect().then(db => {
+      return db.collection(collection).findOne(query);
     });
   }
 

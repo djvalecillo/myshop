@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Products =  require('../services/products');
+const basicAuth = require('../../utils/middlewares/basicAuth');
 
 const Service = new Products();
+
+router.use(basicAuth);
 
 router.get('/', async function(req, res, next) {
     try {
