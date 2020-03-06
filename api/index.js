@@ -1,6 +1,8 @@
 const express = require("express");
 const config = require("../config");
 const app = express();
+const cors = require('cors');
+const helmet = require('helmet');
 const registerRoutes = require("./routes");
 const bodyParser = require("body-parser");
 const {
@@ -9,13 +11,17 @@ const {
   errorHandler
 } = require("../utils/middlewares/errorHandlers");
 const notFoundHandler = require("../utils/middlewares/notFoundHandler");
+
+
+app.use(cors());
+app.use(helmet());
 app.use(bodyParser.json());
 
 //load routes
 registerRoutes(app);
 
-app.use(notFoundHandler);
 
+app.use(notFoundHandler);
 app.use(logErrors);
 app.use(wrapErrors);
 app.use(errorHandler);
